@@ -57,7 +57,7 @@ class ConicProjection(object):
         _, y = self.__call__(self.ra_0, meridians)
         radius = np.abs(self.rho_0 - y)
 
-        patches = [Arc(origin, 2*radius[m], 2*radius[m], angle=angle, theta1=-angle_limit, theta2=angle_limit, **kwargs) for m in xrange(len(meridians))]
+        patches = [Arc(origin, 2*radius[m], 2*radius[m], angle=angle, theta1=-angle_limit, theta2=angle_limit, **kwargs) for m in range(len(meridians))]
         return PatchCollection(patches, match_original=True, zorder=patches[0].zorder)
 
     def getParallelPatches(self, parallels, **kwargs):
@@ -663,7 +663,7 @@ def createConicMap(ax, ra, dec, proj_class=None, ra0=None, dec0=None, pad=0.02, 
 def getHealpixVertices(pixels, nside, nest=False):
     import healpy as hp
     vertices = np.zeros((pixels.size, 4, 2))
-    for i in xrange(pixels.size):
+    for i in range(pixels.size):
         corners = hp.vec2ang(np.transpose(hp.boundaries(nside,pixels[i], nest=nest)))
         corners = np.array(corners) * 180. / np.pi
         diff = corners[1] - corners[1][0]
@@ -744,7 +744,7 @@ def reduceAtLocations(ra, dec, value, reduce_fct=np.mean, nside=512, return_vert
     pixels = np.nonzero(np.bincount(ipix))[0]
 
     v = np.empty(pixels.size)
-    for i in xrange(pixels.size):
+    for i in range(pixels.size):
         sel = (ipix == pixels[i])
         v[i] = reduce_fct(value[sel])
 
@@ -801,7 +801,7 @@ def plotDensity(ra, dec, nside=1024, sep=5, proj_class=None, ax=None):
     cb_label='$n$ [arcmin$^{-2}$]'
     makeMapNice(fig, ax, proj, dec, sep=sep, cb_collection=poly, cb_label=cb_label)
 
-    fig.show()
+    # fig.show()
     return fig, ax, proj
 
 
@@ -873,7 +873,7 @@ def plotMap(ra, dec, value, sep=5, cb_label="Map value", proj_class=None, cmap="
     # create nice map
     makeMapNice(fig, ax, proj, dec, sep=sep, cb_collection=sc, cb_label=cb_label)
 
-    fig.show()
+    # fig.show()
     return fig, ax, proj
 
 
@@ -904,7 +904,7 @@ def makeMapNice(fig, ax, proj, dec, sep=5, bgcolor="#aaaaaa", cb_collection=None
         setParallelLabels(ax, proj, parallels, loc="top")
 
     if bgcolor is not None:
-        ax.set_axis_bgcolor(bgcolor)
+        ax.set_facecolor(bgcolor)
 
     # add colorbar
     if cb_collection is not None:
